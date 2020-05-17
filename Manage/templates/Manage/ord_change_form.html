@@ -95,13 +95,11 @@
 <div>
   Стоимость заявки <span id='order_price'>{{price}}</span>
 </div>
-<input type="submit" value="
 {%if request.user.is_superuser%}
-Отправить
+  <input type="submit" value="Отправить"/>
 {%else%}
-Изменить
+  <input type="submit" value="Изменить"/>
 {%endif%}
-"/>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>

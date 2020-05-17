@@ -1,39 +1,48 @@
-{% extends "admin/base_site.html" %}
-{% load i18n admin_urls static admin_list %}
-
-{% block extrastyle %}
-  {{ block.super }}
-  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}">
-  {% if cl.formset %}
-    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}">
-  {% endif %}
-  {% if cl.formset or action_form %}
-    <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
-  {% endif %}
-  {{ media.css }}
-  {% if not actions_on_top and not actions_on_bottom %}
+<!DOCTYPE html>
+{%load static%}
+<html lang="ru-ru" >
+<head>
+<title> Добавление заявки</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/changelists.css">
     <style>
       #changelist table thead th:first-child {width: inherit}
     </style>
-  {% endif %}
-{% endblock %}
-<div><a href="/admin/">Войти</a></div>
-<!-- {% block extrahead %}
-{{ block.super }}
-{{ media.js }}
-{% endblock %} -->
-{% block content %}
-<form method="post"action="{%url 'Manage:new_order'%}">{%csrf_token%}
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+<meta name="robots" content="NONE,NOARCHIVE">
+</head>
+<body class=""
+  data-admin-utc-offset="0">
 
+<!-- Container -->
+<div id="container">
+
+
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+
+<h1 id="site-name"><a href="/superadmin/"> Добавление заявки</a></h1>
+        </div>
+    </div>
+    <!-- END Header -->
+
+    <div class="breadcrumbs">
+    <a href="/admin/">Войти</a>
+    </div>
+    <!-- Content -->
+    <div id="content" class="colM">
+<form method="post"action="{%url 'Manage:new_order'%}">{%csrf_token%}
   <div class="row">
   <div class="col">
-    <input type="text" name="fio" id="fio" placeholder="ФИО" required/>
-    <input type="text" name="sfera" id="sfera" placeholder="Сфера деятельности" required/>
-    <input type="text" name="name_org" id="name_org" placeholder="Название организации" />
-    <input type="text" class="phone" name="tel" id="tel" placeholder="Телефон" required />
-    <input type="email" name="email" id="email" placeholder="Email" required/>
-    <input type="text" name="web" id="web" placeholder="Вебсайт"/>
-    <input type="number" name="empl_quant" id="empl_quant" placeholder="Общее число сотрудников"/>
+    <input type="text" name="fio" id="fio" placeholder="ФИО" required/><br>
+    <input type="text" name="sfera" id="sfera" placeholder="Сфера деятельности" required/><br>
+    <input type="text" name="name_org" id="name_org" placeholder="Название организации" /><br>
+    <input type="text" class="phone" name="tel" id="tel" placeholder="Телефон" required /><br>
+    <input type="email" name="email" id="email" placeholder="Email" required/><br>
+    <input type="text" name="web" id="web" placeholder="Вебсайт"/><br>
+    <input type="number" name="empl_quant" id="empl_quant" placeholder="Общее число сотрудников"/><br>
   </div>
 
   <div class="col">
@@ -41,13 +50,13 @@
       {%for cat in cats%}
         <option value="{{cat.id}}">{{cat}}</option>
       {%endfor%}
-    </select>
+    </select><br>
     <select name="serv_subcategory" id="serv_subcategory">
       {%for subcat in subcats%}
         <option value="{{subcat.id}}">{{subcat}}</option>
       {%endfor%}
     </select>
-    <textarea name="coment" placeholder="пожелания"></textarea>
+    <br><textarea name="coment" placeholder="пожелания"></textarea>
     <br>Дата начала проекта<input type="date" name="begin" id="begin" required />
     <br>Дата окончания проекта<input type="date" name="end" id="end" required/>
   </div>
@@ -97,11 +106,9 @@
       });
     });
   </script><div style="text-align:right;">
-    <a style="
+    <!-- <a style="
   padding: 8px;
   background-color: #417690;
   border-radius: 4px;
-  color:white;" href="/admin/">Войти</a>
+  color:white;" href="/admin/">Войти</a> -->
   </div>
-
-{%endblock%}
