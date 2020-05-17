@@ -7,12 +7,28 @@ from django.http import  HttpResponse, HttpResponseRedirect, JsonResponse
 from .models import *
 # Create your views here.
 
+def new_worker(request):
+    n_us = CustomUser.objects.create_user(
+        request.POST['username'],
+        '',
+        request.POST['password'],
+        )
+    n_us.is_staff=True
+    n_us.save()
+    return HttpResponseRedirect('/admin/')
+
 def calc_price(request):
     serv_l = request.POST['serv_l'].split(',')
     print(request.POST['serv_l'])
-    serv_pr = ServSubcategory.objects.filter(pk__in=serv_l).aggregate(Sum('price'))['price__sum'] or 0
+    try:
+        serv_pr = ServSubcategory.objects.filter(pk__in=serv_l).aggregate(Sum('price'))['price__sum'] or 0
+    except:
+        serv_pr = 0
     prod_l = request.POST['prod_l'].split(',')
-    prod_pr = Product.objects.filter(pk__in=prod_l).aggregate(Sum('price'))['price__sum'] or 0
+    try:
+        prod_pr = Product.objects.filter(pk__in=prod_l).aggregate(Sum('price'))['price__sum'] or 0
+    except:
+        prod_pr = 0
     price = serv_pr + prod_pr
     return JsonResponse({'price': price})
 
@@ -83,7 +99,7 @@ def new_order(request):
     )
     n_ord.save()
     n_ord.services.add(ServSubcategory.objects.get(pk=p['serv_subcategory']))
-    return HttpResponseRedirect('/admin/')
+    return HttpResponse('Спасибо за заявку, мы с Вами свяжемся')
 
 def subs(request):
     subs = [ {'id': s.id, 'name':s.name}

@@ -17,13 +17,14 @@
     </style>
   {% endif %}
 {% endblock %}
-
+<div><a href="/admin/">Войти</a></div>
 <!-- {% block extrahead %}
 {{ block.super }}
 {{ media.js }}
 {% endblock %} -->
 {% block content %}
 <form method="post"action="{%url 'Manage:new_order'%}">{%csrf_token%}
+
   <div class="row">
   <div class="col">
     <input type="text" name="fio" id="fio" placeholder="ФИО" required/>
@@ -59,7 +60,7 @@
   </div>
   </form>
 
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> 
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="{% static 'Manage/mask.js' %}"></script>
   <script>
     $(document).ready(function(){
@@ -95,5 +96,12 @@
         });
       });
     });
-  </script>
+  </script><div style="text-align:right;">
+    <a style="
+  padding: 8px;
+  background-color: #417690;
+  border-radius: 4px;
+  color:white;" href="/admin/">Войти</a>
+  </div>
+
 {%endblock%}

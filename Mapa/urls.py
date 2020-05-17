@@ -17,8 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from Manage.admin import my_admin
+from Manage.views import *
 
 urlpatterns = [
+    path('', order_form),
     path('admin/', my_admin.urls),
     path('superadmin/', admin.site.urls),
     path('manage/', include('Manage.urls')),

@@ -46,19 +46,24 @@
   {%endfor%}
 </div>
 <div>
-  <h4>Оборудование</h4>в
+  <h4>Оборудование</h4>
   {%for prod in ch_prods%}
-    <label><input class="prod price" type="checkbox" name="prod_{{prod.id}}" value="{{prod.id}}" checked />{{prod}}</label>
-  {%endfor%}н
+    <label><input class="prod price" type="checkbox" name="prod_{{prod.id}}" value="{{prod.id}}" checked />{{prod}} {{prod.brand}}</label>
+  {%endfor%}
   <!-- {{free_prod}} -->
   {%for fprod in free_products%}
-    <label><input class="prod price" type="checkbox" name="prod_{{fprod.id}}" value="{{fprod.id}}" />{{fprod}}</label>
+    <label><input class="prod price" type="checkbox" name="prod_{{fprod.id}}" value="{{fprod.id}}" />{{fprod}} {{fprod.brand}}</label>
   {%endfor%}
 </div>
 <div>
   <h4>Поставщики</h4>
-  {%for brand in brands%}
-    <label>
+  {%for brand in ch_brands%}
+    <br><label>
+      <input type="checkbox" name="brand" id="brand_{{brand.id}}" checked/>{{brand}}
+    </label>
+  {%endfor%}
+  {%for brand in free_brands%}
+    <br><label>
       <input type="checkbox" name="brand" id="brand_{{brand.id}}"/>{{brand}}
     </label>
   {%endfor%}
@@ -74,14 +79,21 @@
 </div>
 <div>
 Выбор сотрудника
+{%if request.user.is_superuser%}
+
+
 <select name='worker'>
   {%for w in workers%}
   <option value="{{w.id}}">{{w}}</option>
   {%endfor%}
 </select>
+{%else%}
+{{this_obj.worker}}
+<input type="hidden" value="{{this_obj.worker.id}}" />
+{%endif%}
 </div>
 <div>
-  Стоимость заявки <span id='order_price'></span>
+  Стоимость заявки <span id='order_price'>{{price}}</span>
 </div>
 <input type="submit" value="Отправить"/>
 
@@ -175,5 +187,6 @@
 {% prepopulated_fields_js %}
 
 </div> -->
-</form></div>
+</form>
+
 {% endblock %}
