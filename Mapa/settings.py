@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'UserCust.apps.UsercustConfig',
-    'social_django',
+    # 'social_django',
+    'Manage',
 ]
 AUTH_USER_MODEL = 'UserCust.CustomUser'
 AUTHENTICATION_BACKENDS = [
@@ -123,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 

@@ -7,4 +7,5 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     POS = (('manager', 'Менеджер'), ('worker', 'Работник'))
-    position = models.CharField('Должность', max_length=255, choices=POS, default='worker')
+    rules = models.CharField('Тип сотрудника', max_length=255, choices=POS, default='worker')
+    position = models.CharField('Должность', max_length=255, null=True, blank=True)

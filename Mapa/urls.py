@@ -16,9 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from Manage.admin import my_admin
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', my_admin.urls),
+    path('superadmin/', admin.site.urls),
+    path('manage/', include('Manage.urls')),
     path('user/', include('UserCust.urls')),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path('social-auth/', include('social_django.urls', namespace="social")),

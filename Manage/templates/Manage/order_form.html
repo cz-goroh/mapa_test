@@ -1,0 +1,99 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static admin_list %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}">
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}">
+  {% endif %}
+  {% if cl.formset or action_form %}
+    <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+  {% endif %}
+  {{ media.css }}
+  {% if not actions_on_top and not actions_on_bottom %}
+    <style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+{% endblock %}
+
+<!-- {% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+{% endblock %} -->
+{% block content %}
+<form method="post"action="{%url 'Manage:new_order'%}">{%csrf_token%}
+  <div class="row">
+  <div class="col">
+    <input type="text" name="fio" id="fio" placeholder="ФИО" required/>
+    <input type="text" name="sfera" id="sfera" placeholder="Сфера деятельности" required/>
+    <input type="text" name="name_org" id="name_org" placeholder="Название организации" />
+    <input type="text" class="phone" name="tel" id="tel" placeholder="Телефон" required />
+    <input type="email" name="email" id="email" placeholder="Email" required/>
+    <input type="text" name="web" id="web" placeholder="Вебсайт"/>
+    <input type="number" name="empl_quant" id="empl_quant" placeholder="Общее число сотрудников"/>
+  </div>
+
+  <div class="col">
+    <select name="serv_category" id='serv_category'>
+      {%for cat in cats%}
+        <option value="{{cat.id}}">{{cat}}</option>
+      {%endfor%}
+    </select>
+    <select name="serv_subcategory" id="serv_subcategory">
+      {%for subcat in subcats%}
+        <option value="{{subcat.id}}">{{subcat}}</option>
+      {%endfor%}
+    </select>
+    <textarea name="coment" placeholder="пожелания"></textarea>
+    <br>Дата начала проекта<input type="date" name="begin" id="begin" required />
+    <br>Дата окончания проекта<input type="date" name="end" id="end" required/>
+  </div>
+
+  <br/><input type="checkbox" name="agree" id="agree" checked/>
+  Отправляя форму, я даю согласие на обработку персональных данных в соответствии с
+  <a >Политикой конфидециальности</a>
+
+  <br><input type="submit" value="Отправить" id='submit' />
+  </div>
+  </form>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> 
+  <script src="{% static 'Manage/mask.js' %}"></script>
+  <script>
+    $(document).ready(function(){
+      jQuery(function($){   $(".phone").mask("+7-999-999-9999"); });
+      $('#agree').change(function(){
+        if ($('#agree').is(':checked')){
+          $('#submit').attr('disabled', false);
+        } else {$('#submit').attr('disabled', true);}
+      });
+      $('#fio').keyup(function(){
+        var re_username = /^[a-zA-Zа-яА-Я\040\.\-]+$/;
+        var is_username = re_username.test($('#fio').val());
+        if ((is_username) && ($('#fio').val().length >= 2))
+        {$('#submit').attr('disabled', false);}
+        else {$('#submit').attr('disabled', true);}
+        // alert(is_username)
+      });
+      $('#serv_category').change(function(){
+        var csrftoken =   $("[name=csrfmiddlewaretoken]").val();
+        $.ajax({
+    			type: "POST",
+    			url: "/manage/subs/",
+    			headers:{"X-CSRFToken": csrftoken },
+          data: {'cat': $('#serv_category :selected').val()},
+          success: function(r){
+            // alert(r.subs[0].name);
+            $('#serv_subcategory').find('option').remove();
+            $.each(r.subs, function(index, value){
+              $('#serv_subcategory')
+                .append('<option value="' + value.id + '">' + value.name + '</option>' )
+            });
+          },
+        });
+      });
+    });
+  </script>
+{%endblock%}
