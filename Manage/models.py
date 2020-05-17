@@ -77,7 +77,7 @@ class Order(models.Model):
     manager_coment = models.TextField('Комментарий менеджера', null=True, blank=True)
     begin = models.DateField('Начало проекта', null=True)
     end = models.DateField('Окончание проекта', null=True)
-    ins_date = models.DateField('Время подачи', null=True)
+    ins_date = models.DateField('Дата подачи', null=True)
     status = models.CharField('Статус', max_length=10, choices=STATUS, default='wait')
 
     def __str__(self):

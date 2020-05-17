@@ -73,7 +73,7 @@
       $('#fio').keyup(function(){
         var re_username = /^[a-zA-Zа-яА-Я\040\.\-]+$/;
         var is_username = re_username.test($('#fio').val());
-        if ((is_username) && ($('#fio').val().length >= 2))
+        if ((is_username) && ($('#fio').val().length >= 2) && ($('#agree').is(':checked')))
         {$('#submit').attr('disabled', false);}
         else {$('#submit').attr('disabled', true);}
         // alert(is_username)

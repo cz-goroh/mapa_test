@@ -99,6 +99,8 @@ def new_order(request):
     )
     n_ord.save()
     n_ord.services.add(ServSubcategory.objects.get(pk=p['serv_subcategory']))
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/admin/Manage/order/')
     return HttpResponse('Спасибо за заявку, мы с Вами свяжемся')
 
 def subs(request):

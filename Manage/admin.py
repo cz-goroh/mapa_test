@@ -23,6 +23,7 @@ class MyAdminSite(admin.AdminSite):
 class OrderAdmin(admin.ModelAdmin):
     list_display=('id', 'client', 'v_services', 'begin', 'end', 'ins_date', 'worker', 'manager', 'client_coment', 'manager_coment', 'status', 'contacts_brands')
     change_form_template = 'Manage/ord_change_form.html'
+    change_list_template = 'Manage/change_list.html'
 
     def contacts_brands(self, obj):
         return "\n".join([str(p.brand.contacts) + ' ' + p.brand.name for p in obj.products.all()])

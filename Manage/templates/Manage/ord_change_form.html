@@ -39,33 +39,33 @@
 <div>
   <h4>Услуги</h4>
   {%for serv in ch_serv%}
-    <label><input class="price srv" type="checkbox" name="serv_{{serv.id}}" value="{{serv.id}}" checked />{{serv}}</label>
+    <label><input class="price srv" type="checkbox" name="serv_{{serv.id}}" value="{{serv.id}}" checked />{{serv}}</label><br>
   {%endfor%}
   {%for serv in free_servs%}
-    <label><input class="price srv" type="checkbox" name="serv_{{serv.id}}" value="{{serv.id}}" />{{serv}}</label>
+    <label><input class="price srv" type="checkbox" name="serv_{{serv.id}}" value="{{serv.id}}" />{{serv}}</label><br>
   {%endfor%}
 </div>
 <div>
   <h4>Оборудование</h4>
   {%for prod in ch_prods%}
-    <label><input class="prod price" type="checkbox" name="prod_{{prod.id}}" value="{{prod.id}}" checked />{{prod}} {{prod.brand}}</label>
+    <label><input class="prod price" type="checkbox" name="prod_{{prod.id}}" value="{{prod.id}}" checked />{{prod}} {{prod.brand}}</label><br>
   {%endfor%}
   <!-- {{free_prod}} -->
   {%for fprod in free_products%}
-    <label><input class="prod price" type="checkbox" name="prod_{{fprod.id}}" value="{{fprod.id}}" />{{fprod}} {{fprod.brand}}</label>
+    <label><input class="prod price" type="checkbox" name="prod_{{fprod.id}}" value="{{fprod.id}}" />{{fprod}} {{fprod.brand}}</label><br>
   {%endfor%}
 </div>
 <div>
-  <h4>Поставщики</h4>
+  <h4 style="margin-bottom: 5px !important;">Поставщики</h4>
   {%for brand in ch_brands%}
-    <br><label>
+    <label style="width: 100px; display: inline-block;">
       <input type="checkbox" name="brand" id="brand_{{brand.id}}" checked/>{{brand}}
-    </label>
+    </label> {{brand.contacts}}<br>
   {%endfor%}
   {%for brand in free_brands%}
-    <br><label>
+    <label style="width: 100px; display: inline-block;">
       <input type="checkbox" name="brand" id="brand_{{brand.id}}"/>{{brand}}
-    </label>
+    </label> {{brand.contacts}}<br>
   {%endfor%}
 </div>
 
@@ -89,13 +89,19 @@
 </select>
 {%else%}
 {{this_obj.worker}}
-<input type="hidden" value="{{this_obj.worker.id}}" />
+<input type="hidden" value="{{this_obj.worker.id}}" name="worker" />
 {%endif%}
 </div>
 <div>
   Стоимость заявки <span id='order_price'>{{price}}</span>
 </div>
-<input type="submit" value="Отправить"/>
+<input type="submit" value="
+{%if request.user.is_superuser%}
+Отправить
+{%else%}
+Изменить
+{%endif%}
+"/>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
